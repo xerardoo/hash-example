@@ -1,8 +1,8 @@
 package file
 
 import (
-	"encoding/hex"
 	"errors"
+	"github.com/xerardoo/hash-example/imt"
 	"io/ioutil"
 	"net/http"
 )
@@ -42,6 +42,10 @@ func (f *File) Fetch(url string) ([]byte, error) {
 	if f.Size > MaxFileSize {
 		return nil, ErrMaxFileSize
 	}
+	f.Data, err = imt.Generate(f.Data)
+	if err != nil {
+		return nil, err
+	}
 	return f.Data, nil
 }
 
@@ -52,8 +56,8 @@ func (f *File) Write(path string) (err error) {
 	if len(f.Data) == 0 {
 		return ErrEmptyFile
 	}
-	data := []byte(hex.EncodeToString(f.Data[:]))
-	err = ioutil.WriteFile(path, data, 775)
+	// data := []byte(hex.EncodeToString(f.Data[:]))
+	err = ioutil.WriteFile(path, f.Data, 775)
 	if err != nil {
 		return
 	}
