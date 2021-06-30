@@ -47,5 +47,4 @@ func main() {
 			fmt.Println("Option invalid, try again...")
 		}
 	}
-
 }

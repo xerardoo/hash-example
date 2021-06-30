@@ -27,7 +27,7 @@ var _ = Describe("Hast testing", func() {
 
 	var input2 []byte
 	_, err2 := imt.Generate(input2)
-	It("result be hashed", func() {
+	It("input be empty slice", func() {
 		Expect(err2).ToNot(BeNil())
 	})
 })
