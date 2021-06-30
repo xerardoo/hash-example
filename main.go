@@ -10,14 +10,15 @@ import (
 
 func main() {
 	fmt.Println("===== Welcome =====")
-	fmt.Println("\n Please select an option:")
-	fmt.Println("\n1) A URL")
-	fmt.Println("2) A destination path for a file containing a hash")
-	fmt.Println("3) An optional value for throttling the download")
-	fmt.Println("4) Exit")
+	var newFile file.File
 
 	for {
-		var newFile file.File
+		fmt.Println("\n\n")
+		fmt.Println("1) A URL")
+		fmt.Println("2) A destination path for a file containing a hash")
+		fmt.Println("3) An optional value for throttling the download")
+		fmt.Println("4) Exit")
+		fmt.Println("\n Please select an option:")
 		reader := bufio.NewReader(os.Stdin)
 		option, err := reader.ReadString('\n')
 		checkErr(err)
@@ -30,6 +31,7 @@ func main() {
 
 			_, err = newFile.Fetch(url)
 			checkErr(err)
+			fmt.Println("File fetched")
 			break
 		case "2":
 			fmt.Println("Enter Path:")
@@ -38,6 +40,7 @@ func main() {
 
 			err = newFile.Write(path)
 			checkErr(err)
+			fmt.Println("File saved")
 			break
 		case "3":
 			var limit float64
@@ -46,6 +49,7 @@ func main() {
 
 			err = file.SetLimitSize(limit)
 			checkErr(err)
+			fmt.Println("Modified file size limit")
 			break
 		case "4":
 			fmt.Println("Are you sure? [Y/n]")

@@ -10,6 +10,8 @@ import (
 var MaxFileSize float64 = 5
 var ErrMaxFileSize = errors.New("file too large")
 var ErrEmptyFile = errors.New("empty file")
+var ErrInvalidURL = errors.New("invalid file url")
+var ErrInvalidPath = errors.New("invalid file path")
 var ErrLimitSizeNoValid = errors.New("file limit size no valid")
 
 type File struct {
@@ -19,6 +21,9 @@ type File struct {
 }
 
 func (f *File) Fetch(url string) ([]byte, error) {
+	if url == "" {
+		return nil, ErrInvalidURL
+	}
 	f.Url = url
 	resp, err := http.Get(f.Url)
 	if err != nil {
@@ -41,6 +46,9 @@ func (f *File) Fetch(url string) ([]byte, error) {
 }
 
 func (f *File) Write(path string) (err error) {
+	if path == "" {
+		return ErrInvalidPath
+	}
 	if len(f.Data) == 0 {
 		return ErrEmptyFile
 	}
