@@ -1,6 +1,7 @@
 package file
 
 import (
+	"encoding/hex"
 	"errors"
 	"io/ioutil"
 	"net/http"
@@ -43,7 +44,8 @@ func (f *File) Write(path string) (err error) {
 	if len(f.Data) == 0 {
 		return ErrEmptyFile
 	}
-	err = ioutil.WriteFile(path, f.Data, 775)
+	data := []byte(hex.EncodeToString(f.Data[:]))
+	err = ioutil.WriteFile(path, data, 775)
 	if err != nil {
 		return
 	}
