@@ -8,6 +8,7 @@ import (
 
 var MaxFileSize float64 = 5
 var ErrMaxFileSize = errors.New("file too large")
+var ErrEmptyFile = errors.New("empty file")
 var ErrLimitSizeNoValid = errors.New("file limit size no valid")
 
 type File struct {
@@ -28,6 +29,9 @@ func (f *File) Fetch(url string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+	if len(f.Data) == 0 {
+		return nil, ErrEmptyFile
+	}
 	f.Size = float64(len(f.Data)) / 1024 / 1024
 	if f.Size > MaxFileSize {
 		return nil, ErrMaxFileSize
@@ -36,6 +40,9 @@ func (f *File) Fetch(url string) ([]byte, error) {
 }
 
 func (f *File) Write(path string) (err error) {
+	if len(f.Data) == 0 {
+		return ErrEmptyFile
+	}
 	err = ioutil.WriteFile(path, f.Data, 775)
 	if err != nil {
 		return

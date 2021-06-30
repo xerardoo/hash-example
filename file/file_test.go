@@ -42,4 +42,10 @@ var _ = Describe("File testing", func() {
 	It("file be writed", func() {
 		Expect(err2).NotTo(HaveOccurred())
 	})
+
+	var noFile file.File
+	err3 := noFile.Write(path)
+	It("file be empty slice", func() {
+		Expect(err3).ToNot(BeNil())
+	})
 })

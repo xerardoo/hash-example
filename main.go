@@ -26,7 +26,7 @@ func main() {
 			url = strings.TrimSuffix(url, "\n")
 			break
 		case "2":
-			fmt.Println("Enter Absolute Path:")
+			fmt.Println("Enter Path:")
 			path, _ := reader.ReadString('\n')
 			path = strings.TrimSuffix(path, "\n")
 			break
